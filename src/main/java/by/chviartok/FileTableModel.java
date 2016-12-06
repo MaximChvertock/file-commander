@@ -1,23 +1,31 @@
 package by.chviartok;
 
+import org.springframework.stereotype.Component;
+
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 /**
  * mad
  * 5.12.16.
  */
+@Component
 public class FileTableModel implements TableModel {
     private String columnNames[] = {"Name", "Type", "Size", "Data"};
 
     private List<File> files = new ArrayList<File>();
 
     private File current;
+
+    public FileTableModel(String path){
+        setCurrent(new File(path));
+    }
+
+    public FileTableModel(){/*NOP*/}
 
     public FileTableModel(File current) {
         setCurrent(current);

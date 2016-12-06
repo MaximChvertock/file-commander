@@ -1,29 +1,31 @@
 package by.chviartok;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.File;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+import java.awt.Dimension;
 
 /**
  * mad
  * 6.12.16.
  */
-public class FileCommander {
+@Component
+public class FileCommander extends JFrame {
 
-    private JFrame frame;
+    @Autowired
+    private DoubleFileTablePanel filePanel;
 
-    public FileCommander() {
-        frame = new JFrame();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(800, 600));
+    public void run(){
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new Dimension(800, 600));
 
-        // init UI
-        DoubleFileTablePanel filePanel = new DoubleFileTablePanel();
+        getContentPane().add(filePanel);
 
-        frame.getContentPane().add(filePanel);
-
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 }
