@@ -4,8 +4,12 @@ import javax.swing.*;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.Arrays;
+import java.util.function.DoubleSupplier;
+import java.util.function.IntSupplier;
+import java.util.function.LongSupplier;
 
 /**
  * mad
@@ -14,13 +18,14 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
-//        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        //        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
         UIManager.LookAndFeelInfo[] installedLookAndFeels = UIManager.getInstalledLookAndFeels();
-
-        UIManager.setLookAndFeel(installedLookAndFeels[3].getClassName());
 //        System.out.println(Arrays.toString(installedLookAndFeels));
 
-        new FileCommander();
+        UIManager.setLookAndFeel(installedLookAndFeels[3].getClassName());
+
+//        new FileCommander();
+
     }
 }
