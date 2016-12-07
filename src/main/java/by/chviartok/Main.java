@@ -1,15 +1,10 @@
 package by.chviartok;
 
-import javax.swing.*;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableModel;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.io.File;
-import java.util.Arrays;
-import java.util.function.DoubleSupplier;
-import java.util.function.IntSupplier;
-import java.util.function.LongSupplier;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.UIManager;
 
 /**
  * mad
@@ -17,15 +12,17 @@ import java.util.function.LongSupplier;
  */
 public class Main {
 
+    private static final String CONFIG_PATH = "classpath*:application-config.xml";
+
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
-        //        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
         UIManager.LookAndFeelInfo[] installedLookAndFeels = UIManager.getInstalledLookAndFeels();
-//        System.out.println(Arrays.toString(installedLookAndFeels));
-
         UIManager.setLookAndFeel(installedLookAndFeels[3].getClassName());
 
-//        new FileCommander();
+        final ApplicationContext context =
+                new ClassPathXmlApplicationContext(CONFIG_PATH);
+        final FileCommander fileCommander =
+                context.getBean(FileCommander.class);
 
+        fileCommander.run();
     }
 }

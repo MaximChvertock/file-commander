@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="by.chviartok"/>
+
+    <bean id="leftFileTableModel" class="by.chviartok.FileTableModel">
+        <constructor-arg name="path" value="/"/>
+    </bean>
+    <bean id="leftFileTable" class="by.chviartok.FileTable">
+        <constructor-arg ref="leftFileTableModel"/>
+    </bean>
+
+    <bean id="rightFileTableModel" class="by.chviartok.FileTableModel">
+        <constructor-arg name="path" value="/etc"/>
+    </bean>
+    <bean id="rightFileTable" class="by.chviartok.FileTable">
+        <constructor-arg ref="rightFileTableModel"/>
+    </bean>
+
+</beans>
