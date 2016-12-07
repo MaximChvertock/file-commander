@@ -15,17 +15,18 @@ import java.util.List;
  */
 @Component
 public class FileTableModel implements TableModel {
+
     private String columnNames[] = {"Name", "Type", "Size", "Data"};
 
-    private List<File> files = new ArrayList<File>();
+    private List<File> fileList = new ArrayList<File>();
 
     private File current;
 
-    public FileTableModel(String path){
+    public FileTableModel(String path) {
         setCurrent(new File(path));
     }
 
-    public FileTableModel(){/*NOP*/}
+    public FileTableModel() {/*NOP*/}
 
     public FileTableModel(File current) {
         setCurrent(current);
@@ -41,32 +42,50 @@ public class FileTableModel implements TableModel {
         }
 
         this.current = current;
-        files.clear();
-        files.add(0, this.current.getParentFile());
+        fileList.clear();
+        addParentToFileList();
 
-        final List<File> filesFromDirectory = Arrays.asList(this.current.listFiles());
+        final File[] files = current.listFiles();
 
-        filesFromDirectory.sort((left, right) -> {
-            if(left.isDirectory() && right.isDirectory()){
+        if (files != null && files.length > 0) {
+            final List<File> filesFromDirectory = Arrays.asList(this.current.listFiles());
+
+            filesFromDirectory.sort((left, right) -> {
+                if (left.isDirectory() && right.isDirectory()) {
+                    return left.getName().compareToIgnoreCase(right.getName());
+                } else if (left.isDirectory()) {
+                    return -1;
+                } else if (right.isDirectory()) {
+                    return 1;
+                }
+
                 return left.getName().compareToIgnoreCase(right.getName());
-            } else if(left.isDirectory()){
-                return -1;
-            } else if(right.isDirectory()){
-                return 1;
-            }
+            });
 
-            return left.getName().compareToIgnoreCase(right.getName());
-        });
+            this.fileList.addAll(filesFromDirectory);
+        }
+    }
 
-        files.addAll(filesFromDirectory);
+    private void addParentToFileList() {
+        if (hasParent(current)) {
+            fileList.add(0, current.getParentFile());
+        }
+    }
+
+    private static boolean hasParent(File file) {
+        if (file == null) {
+            return false;
+        }
+
+        return file.getParentFile() != null;
     }
 
     public File getFileAt(int rowIndex) {
-        return files.get(rowIndex);
+        return fileList.get(rowIndex);
     }
 
     public int getRowCount() {
-        return files.size();
+        return fileList.size();
     }
 
     public int getColumnCount() {
@@ -86,23 +105,25 @@ public class FileTableModel implements TableModel {
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
-        if(rowIndex == 0){
-            if(columnIndex == 0){
-                return "..";
-            } else {
-                return "";
+        if (hasParent(current)) {
+            if (rowIndex == 0) {
+                if (columnIndex == 0) {
+                    return "..";
+                } else {
+                    return "";
+                }
             }
         }
 
         switch (columnIndex) {
             case 0:
-                return files.get(rowIndex).getName();
+                return fileList.get(rowIndex).getName();
             case 1:
-                return (files.get(rowIndex).isDirectory() ? "DIR" : "file");
+                return (fileList.get(rowIndex).isDirectory() ? "DIR" : "file");
             case 2:
-                return files.get(rowIndex).length();
+                return fileList.get(rowIndex).length();
             case 3:
-                return files.get(rowIndex).lastModified();
+                return fileList.get(rowIndex).lastModified();
         }
 
         return null;

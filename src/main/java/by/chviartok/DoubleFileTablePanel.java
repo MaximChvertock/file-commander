@@ -33,21 +33,11 @@ public class DoubleFileTablePanel extends JPanel {
         gridLayout.setHgap(GAP_BETWEEN_PANELS);
         setLayout(gridLayout);
 
-        leftFileTable = new FileTable(new FileTableModel(new File("/bin")));
         final JScrollPane leftFileTableScrollPane = new JScrollPane(leftFileTable);
 
-        rightFileTable = new FileTable(new FileTableModel(new File("/etc")));
         final JScrollPane rightFileTableScrollPane = new JScrollPane(rightFileTable);
 
         add(leftFileTableScrollPane);
         add(rightFileTableScrollPane);
-    }
-
-    public FileTable getLeftFileTable() {
-        return leftFileTable;
-    }
-
-    public FileTable getRightFileTable() {
-        return rightFileTable;
     }
 }
